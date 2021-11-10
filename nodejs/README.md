@@ -65,9 +65,13 @@ const sayHi = (name) => "Hi, ${name}!"
 
 ## Exercise 2
 
-Look at this, and see if you can debug this in 30seconds:
+Debug this:
 
 ```js
+const fs = require('fs')
+const util = require('util')
+let charSet;
+
 const encode = (string, key) => {
   return string.split('').map(char => {
     let number = (parseInt(charSet[char]) + key) % 99
@@ -75,18 +79,29 @@ const encode = (string, key) => {
   }).join('')
 }
 
-console.log(encode('Hi, Booleaners!', 4))
+const parseCharacterSet = (data) => {
+  let result = {}
+  data.split('\n').map(pair => pair.split(',')).forEach(splitPair => result[splitPair[0]] = splitPair[1])
+  return result
+}
+
+fs.readFile('char-set.txt', 'utf8', (err, data) => {
+  if (err) {
+    console.error(err)
+    return
+  }
+
+  charSet = parseCharacterSet(data)
+  console.log(util.inspect(encode('Hi, mse-2103-a!', 4)))
 })
 
-// Expected console output => '391482053320201710061910232458'
+// Expected console output => '391482051824106893920294680658'
 ```
 
 
 ## Interlude: Debugging mindsets
 
 Exercise 1 probably felt easier than exercise 2...
-
-Cognitive overload causes difficulty when debugging because you try to evaluate expressions and keep too many values in your head.
 
 Many bugs will be so easy you don't even notice yourself fixing them. But most of the *time* you spend debugging will be on the hard bugs. And most of your time spent programming will be spent debugging.
 
@@ -149,9 +164,15 @@ function factorial(n) {
 
 Try running that and fixing the bug.
 
+Here is an additional [visibility tool](https://nodejs.org/api/debugger.html) to step through your code. Here's another [visibility tool](https://nodejs.org/en/knowledge/getting-started/how-to-use-util-inspect/) to help inspect objects. Try them out and share your thoughts with your cohort.
+
 ## Exercise 4
 
 ```js
+const fs = require('fs')
+const util = require('util')
+let charSet;
+
 const encode = (string, key) => {
   return string.split('').map(char => {
     let number = (parseInt(charSet[char]) + key) % 99
@@ -159,9 +180,23 @@ const encode = (string, key) => {
   }).join('')
 }
 
-console.log(encode('Hi, Booleaners!', 4))
+const parseCharacterSet = (data) => {
+  let result = {}
+  data.split('\n').map(pair => pair.split(',')).forEach(splitPair => result[splitPair[0]] = splitPair[1])
+  return result
+}
 
-// Expected console output => '391482053320201710061910232458'
+fs.readFile('char-set.txt', 'utf8', (err, data) => {
+  if (err) {
+    console.error(err)
+    return
+  }
+
+  charSet = parseCharacterSet(data)
+  console.log(util.inspect(encode('Hi, mse-2103-a!', 4)))
+})
+
+// Expected console output => '391482051824106893920294680658'
 ```
 
 Your task is **not** to fix this code. Let go of that idea.
@@ -169,8 +204,6 @@ Your task is **not** to fix this code. Let go of that idea.
 Imagine your friend wrote this code and doesn't know where he went wrong. He doesn't need your fix — he needs to understand the problem so he can write better code.
 
 You're a code archaeologist now!
-
-Instruction: go and get visibility on this short program by opening the `index.html` file in your browser.
 
 ```
 >
@@ -276,10 +309,13 @@ Instruction: go and get visibility on this short program by opening the `index.h
 
 ## Exercise 5
 
-Instruction: go and get visibility on this short program by opening the `index.html` file in your browser.
 Debug this:
 
 ```js
+const fs = require('fs')
+const util = require('util')
+let charSet;
+
 const decode = (string, key) => {
   let invertedCharSet = invert(charSet)
 
@@ -306,7 +342,21 @@ const invert = (obj) => {
   return newObj;
 }
 
-console.log(decode('391482053320201710061910232458', 4))
+const parseCharacterSet = (data) => {
+  let result = {}
+  data.split('\n').map(pair => pair.split(', ')).forEach(splitPair => result[splitPair[0]] = splitPair[1])
+  return result
+}
 
-// Expected console output => 'Hi, Booleaners!'
+fs.readFile('char-set.txt', 'utf8', (err, data) => {
+  if (err) {
+    console.error(err)
+    return
+  }
+
+  charSet = parseCharacterSet(data)
+  console.log(util.inspect(decode('391482051824106893920294680658', 4)))
+
+  // Expected console output => 'Hi, mse-2103-a!'
+})
 ```
