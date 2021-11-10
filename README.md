@@ -27,6 +27,11 @@ const sayHi = (name) => "Hi, ${name}!"
 //
 // > sayHi("Ed")
 // => "Hi, Ed!"
+
+//BT
+//const sayHi = (name) => `Hi, ${name}!`;
+//sayHi ('ed');
+
 ```
 
 ```

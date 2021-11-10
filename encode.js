@@ -1,7 +1,7 @@
 const encode = (string, key) => {
   return string.split('').map(char => {
     let number = (parseInt(charSet[char]) + key) % 99
-    return number.padStart(2, '0')
+    return number
   }).join('')
 }
 
